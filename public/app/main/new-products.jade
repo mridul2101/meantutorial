@@ -1,0 +1,6 @@
+.panel.panel-primary
+  .panel-heading.text-center New Products
+  .panel-body
+    .row(ng-repeat="product in products | filter:{featured:false}")
+      .col-md-12 {{product.name}}
+
