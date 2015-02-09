@@ -1,23 +1,31 @@
 var express = require('express'),
 	stylus = require('stylus'),
 	logger = require('morgan'),
-	bodyParser = require('body-parser');
+	bodyParser = require('body-parser'),
+	cookieParser = require('cookie-parser'),
+	session = require('express-session'),
+	passport = require('passport');
 
-module.exports = function(){
+module.exports = function(app, config){
 	function compile(str, path) {
 		return stylus(str).set('filename', path);
 	}
 
-
-	app.set('views', __dirname + '/server/views');
-	app.set('view engine', 'jade');
+	app.set('views', config.rootPath + '/server/views');
+	app.set('view engine', 'jade');	
 	app.use(logger('dev'));
+	app.use(cookieParser());
 	app.use(bodyParser());
+	app.use(session({secret: 'gkart session'}));
+	app.use(session({secret: 'gkart session', resave: true, saveUninitialized: true}));
+	app.use(passport.initialize());
+	app.use(passport.session());	
+
 	app.use(stylus.middleware(
 	 {
-		src: __dirname + '/public',
+		src: config.rootPath + '/public',
 		compile: compile
 	  }
 	));
-	app.use(express.static(__dirname + '/public'));
+	app.use(express.static(config.rootPath + '/public'));
 }
