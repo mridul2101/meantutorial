@@ -14,7 +14,8 @@ module.exports = function(config) {
 	lastName: String,
 	userName: String,
 	salt: String,
-	hashed_pwd: String
+	hashed_pwd: String,
+	roles: [String]
   });
 
  userSchema.methods = {
@@ -30,11 +31,11 @@ module.exports = function(config) {
 		var salt, hash;
 		salt = createSalt();
 		hash = hashPwd(salt, 'mrdlmndr');
-		User.create({firstName:'Mridul', lastName:'Mundara', userName:'mrdlmndr', salt: salt, hashed_pwd: hash}),
+		User.create({firstName:'Mridul', lastName:'Mundara', userName:'mrdlmndr', salt: salt, hashed_pwd: hash, roles:[]}),
 
 		salt = createSalt();
                 hash = hashPwd(salt, 'mridul2101');
-		User.create({firstName:'Mridul', lastName:'Mundara', userName:'mridul2101', salt: salt, hashed_pwd: hash}),
+		User.create({firstName:'Mridul', lastName:'Mundara', userName:'mridul2101', salt: salt, hashed_pwd: hash, roles:['admin']}),
 
 		salt = createSalt();
                 hash = hashPwd(salt, 'mridul2101');
